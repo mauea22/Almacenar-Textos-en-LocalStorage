@@ -8,7 +8,15 @@ eventListener();
 
 //Esta función escucha el evento submit del selector formulario y ejecuta la función agregarTweets
 function eventListener() {
+    // evento submit cuando se agrega un nuevo tweet
     formulario.addEventListener('submit', agregarTweets);
+
+    // Cuando el documento está listo
+    document.addEventListener('DOMContentLoaded', () => {
+
+        tweets = JSON.parse(localStorage.getItem('tweets')) || [];
+        crearHTML();
+    });
 }
 
 
@@ -49,7 +57,7 @@ function agregarTweets(e) {
 
 function mostrarError (error) {
     const mensajeError = document.createElement('p'); //crea el párrafo (<p></p>)
-    mensajeError.textContent = error; //Agregael mensaje que le pasamos como parámetro al momento de llamar la función
+    mensajeError.textContent = error; //Agrega el mensaje que le pasamos como parámetro al momento de llamar la función
     mensajeError.classList.add('error'); //añade la clase .error (está en custom.css)
 
     //insertarlo en el HTML
@@ -79,6 +87,14 @@ function crearHTML() {
             listaTweets.appendChild(li);
         });
     }
+
+    sincronizarStorage();
+}
+
+// Agrega los tweets actuales a localStorage
+function sincronizarStorage() {
+    // JSON.stringify convierte arrays o métodos a string para poder almacenar en LocalStorage o sesionStorage
+    localStorage.setItem('tweets',JSON.stringify(tweets)); //estoy agregando el array tweets a localStorage
 }
 
 //limpiar el HTML
