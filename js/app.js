@@ -77,11 +77,22 @@ function crearHTML() {
 
     if (tweets.length > 0) { //si el arreglo tiene algo
         tweets.forEach( tweet => {
+            //Crear botón de borrar
+            const btnEliminar = document.createElement('a');
+            btnEliminar.classList.add('borrar-tweet');
+            btnEliminar.textContent = 'X'; //insertar la X
+
+            //agregar la funcionalidad del btnEliminar
+            btnEliminar.onclick = () => {
+                borrarTweet(tweet.id); //tweet.id hace referencia al objeto actual 
+            }
+            
             // crear el elemento li del HTML
             const li = document.createElement('li');
-
-            //añado el texto
+            
+            //añado el texto al elemento li
             li.textContent = tweet.tweet; //? por cada tweet del array accedemos a la propiedad del objeto (tweetObj) 
+            li.appendChild(btnEliminar) //es el botón eliminar
 
             // insertarlo en el HTML
             listaTweets.appendChild(li);
@@ -95,6 +106,12 @@ function crearHTML() {
 function sincronizarStorage() {
     // JSON.stringify convierte arrays o métodos a string para poder almacenar en LocalStorage o sesionStorage
     localStorage.setItem('tweets',JSON.stringify(tweets)); //estoy agregando el array tweets a localStorage
+}
+
+// Borrar tweet con el botón
+function borrarTweet(id) {
+    tweets = tweets.filter(tweet => tweet.id !== id);
+    crearHTML();
 }
 
 //limpiar el HTML
