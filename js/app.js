@@ -41,6 +41,9 @@ function agregarTweets(e) {
     // Una vez agregado crear el HTML
     crearHTML();
 
+    //reseteo de formulario
+    formulario.reset();
+
 
 }
 
@@ -59,15 +62,28 @@ function mostrarError (error) {
     }, 2000);
 }
 
-//Muestra los tweets en el HTML
+// Muestra los tweets en el HTML
 function crearHTML() {
+    // Primero limpiamos el HTML
+    limpiarHTML();
+
     if (tweets.length > 0) { //si el arreglo tiene algo
         tweets.forEach( tweet => {
-            // crear el elemento
+            // crear el elemento li del HTML
             const li = document.createElement('li');
 
             //añado el texto
-            li.textContent = tweet.tweet //? por cada elemento del array 
-        })
+            li.textContent = tweet.tweet; //? por cada tweet del array accedemos a la propiedad del objeto (tweetObj) 
+
+            // insertarlo en el HTML
+            listaTweets.appendChild(li);
+        });
+    }
+}
+
+//limpiar el HTML
+function limpiarHTML() {
+    while (listaTweets.firstChild) {
+        listaTweets.removeChild(listaTweets.firstChild);
     }
 }
